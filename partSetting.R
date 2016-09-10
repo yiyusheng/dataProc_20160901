@@ -3,7 +3,9 @@
 rm(list = ls())
 source('head.R')
 
-load(file.path(dir_data,'staIO.Rda'))
+load(file.path(dir_data,'staIOAllFile.Rda'))
+staIO <- staIO[unlist(lapply(staIO,is.data.frame))]
+# load(file.path(dir_data,'staIO.Rda'))
 days <- length(staIO)
 ####################################
 # S1.merge
@@ -12,7 +14,7 @@ for(i in 1:length(staIO)){
   x <- staIO[[i]]
   lenIOPS[[as.character(x$date[i])]] <- x$len_iops[match(lenIOPS$svr_id,x$svr_id)]
 }
-lenIOPS$maxLenIOPS <- apply(lenIOPS[,2:41],1,function(x)max(x,na.rm = T))
+lenIOPS$maxLenIOPS <- apply(lenIOPS[,2:(days + 1)],1,function(x)max(x,na.rm = T))
 
 lenItem <- data.frame(svr_id = 1:22393)
 for(i in 1:length(staIO)){
@@ -28,15 +30,14 @@ lenSvrid <- subset(lenSvrid,maxLenIOPS != -Inf)
 lenSvrid$avgNumAttr <- lenSvrid$maxLenItem/(lenSvrid$maxLenIOPS + 3)
 
 # S3.partition
-partA <- list2df(tapply(lenSvrid$countItemPerDay,lenSvrid$maxLenIOPS,function(x){list(mean(x),length(x))}),names = c('numPerDay','count','lenIOPS'))
-partA$svrNum <- 2.5e8/partA$numPerDay/365
-partA$svrNum <- ceiling(partA$svrNum/10)*10
-partA$fileNum <- floor(partA$count/partA$svrNum)
+part <- list2df(tapply(lenSvrid$countItemPerDay,lenSvrid$maxLenIOPS,function(x){list(mean(x),length(x))}),names = c('numPerDay','count','lenIOPS'))
+part$svrNum <- round(1.5e8/part$numPerDay/365)
+part$fileNum <- round(part$count/part$svrNum)
 diskNumNeed <- c(0,4,6,24,26,48)
-partA <- subset(partA,lenIOPS %in% diskNumNeed)
+part <- subset(part,lenIOPS %in% diskNumNeed)
 # number of severs of 0,4,6,24,48 disk drives is set to 1600,500,450,200,120
 numTable <- data.frame(lenIOPS = diskNumNeed,
-                       num = c(1600,500,450,200,150,120),
+                       num = c(1000,300,200,120,70,70),
                        sign = letters[1:length(diskNumNeed)])
 
 # S4.And Index for sever of 0,4,6,24,26,48 disks

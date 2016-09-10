@@ -31,7 +31,8 @@ sta_io <- function(dir){
 
 # doParallel
 require(doParallel)
-ck <- makeCluster(35,outfile = '')
+numCore <- floor(detectCores()*0.9)
+ck <- makeCluster(min(numCore,length(fileNamesmp)),outfile = '')
 registerDoParallel(ck)
 staIO <- foreach(i = fileNamesmp,.verbose = T) %dopar% sta_io(i)
 save(staIO,file = file.path(dir_data,'staIOAllFile.Rda'))

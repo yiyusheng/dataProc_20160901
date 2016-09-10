@@ -43,7 +43,8 @@ comp_dir <- function(dirN){
 
 # doParallel
 require(doParallel)
-ck <- makeCluster(40,outfile = '')
+numCore <- floor(detectCores()*0.9)
+ck <- makeCluster(min(numCore,length(dirName)),outfile = '')
 registerDoParallel(ck)
 foreach(i = dirName,.verbose = T) %dopar% comp_dir(i)
 stopCluster(ck)

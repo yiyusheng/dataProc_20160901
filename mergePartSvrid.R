@@ -45,7 +45,8 @@ merge_file <- function(fname){
 
 # doParallel
 require(doParallel)
-ck <- makeCluster(40,outfile = '')
+numCore <- floor(detectCores()*0.9)
+ck <- makeCluster(min(numCore,length(fn)),outfile = '')
 registerDoParallel(ck)
 foreach(i = fn,.verbose = T) %dopar% merge_file(i)
 stopCluster(ck)

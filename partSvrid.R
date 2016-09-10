@@ -17,7 +17,6 @@ part_svrid <- function(fname){
   fileIdx <- data.frame(id = seq_len(nrow(dt)),
                         file = paste(partSvrid$idx[match(dt$svr_id,partSvrid$svr_id)],fname,sep='-'))
   fileIdx <- split(fileIdx$id,fileIdx$file)
-  # fileIdx <- fileIdx[1:5]
   
   for (i in 1:length(fileIdx)){
     fn <- names(fileIdx)[i]
@@ -28,7 +27,8 @@ part_svrid <- function(fname){
 
 # doParallel
 require(doParallel)
-ck <- makeCluster(40,outfile = '')
+numCore <- floor(detectCores()*0.9)
+ck <- makeCluster(min(numCore,length(fileName)),outfile = '')
 registerDoParallel(ck)
 foreach(i = fileName,.verbose = T) %dopar% part_svrid(i)
 stopCluster(ck)
