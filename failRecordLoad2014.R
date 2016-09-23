@@ -1,4 +1,4 @@
-# load failure record from yemao. It contains all failure in 2014
+e# load failure record from yemao. It contains all failure in 2014
 # Date: 2016-08-25
 # Author: yorkyi
 # for 硬盘故障单140101_141231A.txt, we first use regexp of notepad++ to remove \t ((\t){2,100})

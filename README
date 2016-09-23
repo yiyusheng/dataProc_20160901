@@ -1,0 +1,17 @@
+1.Load and partition data.
+Steps: compIO.R -> staIO.R -> partSetting.R -> partSvrid.R -> mergePartSvrid.R
+
+2.Summary Infomation for 
+a)failure record: failRecordLoad_1407-1506.R -> failRecord_diskParse.R
+b)disk and server info: diskInfoLoad.R
+
+3.restore value of zero and reduce data to less number of columns
+Steps: restoreData -> reduceIOPS.R -> divideFault.R
+
+4.feature generation
+amount_proc.R
+amount_ftr.R
+mean_ftr.R(support by divideFault.R)
+
+5.Analysis
+mean_als.R(support by mean_ftr.R)
