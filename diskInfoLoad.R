@@ -10,8 +10,8 @@ data$use_time <- as.POSIXct(data$use_time,tz = 'UTC')
 data$svr_id <- factor(data$svr_id)
 data$id <- NULL
 data <- data[,c('svr_id','use_time','drive','model')]
-diskInfo0902 <- factorX(data)
 
+# svr and use_time
 dataTime <- read.table(file.path(dir_data,'files','diskInfo_20160912A'),header = F,fill = T,sep='\t')
 names(dataTime) <- c('svr_id','use_time')
 dataTime$use_time <- fct2ori(dataTime$use_time)
@@ -19,10 +19,15 @@ dataTime$use_time[dataTime$use_time == ''] <- '2016-09-01'
 dataTime$use_time <- as.POSIXct(dataTime$use_time,tz = 'UTC',na.rm = T)
 dataTime$svr_id <- factor(dataTime$svr_id)
 
+num_ut <- melt(tapply(dataTime$use_time,dataTime$svr_id,function(x)length(unique(x))))
+dataTime <- subset(dataTime,svr_id %in% num_ut$Var1[num_ut$value == 1])
+dataTime <- factorX(dataTime[!duplicated(dataTime$svr_id),])
+
 #filter disk onshelf after 2015-07-01
-diskInfo0902$use_time_SMART <- diskInfo0902$use_time
-diskInfo0902$use_time <- dataTime$use_time[match(diskInfo0902$svr_id,dataTime$svr_id)]
-diskInfo0902 <- factorX(subset(diskInfo0902,use_time < as.POSIXct('2015-07-01')))
+diskInfo0902All <- factorX(data)
+diskInfo0902All$use_time_SMART <- diskInfo0902All$use_time
+diskInfo0902All$use_time <- dataTime$use_time[match(diskInfo0902All$svr_id,dataTime$svr_id)]
+diskInfo0902 <- factorX(subset(diskInfo0902All,use_time < as.POSIXct('2015-07-01')))
 
 # S2. svr info
 svrInfo0902 <- data.frame(svr_id = levels(diskInfo0902$svr_id),
@@ -40,5 +45,5 @@ svrInfo0902$use_time <- as.POSIXct.numeric(as.vector(svrInfo0902$use_time),
 svrInfo0902$model <- factor(as.vector(svrInfo0902$model))
 
  # S3. SAVE
-save(diskInfo0902,svrInfo0902,file = file.path(dir_data,'diskInfo0902.Rda'))
+save(diskInfo0902,diskInfo0902All,svrInfo0902,file = file.path(dir_data,'diskInfo0902.Rda'))
 
