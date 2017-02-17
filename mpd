@@ -618,3 +618,9 @@ Error in unserialize(node$con) : error reading from connection
 Error in unserialize(node$con) : error reading from connection
 Error in unserialize(node$con) : error reading from connection
 Error in unserialize(node$con) : error reading from connection
+starting worker pid=15409 on localhost:11263 at 20:34:21.665
+starting worker pid=15410 on localhost:11263 at 20:34:21.977
+DCAST: d16.Rda
+DCAST: g4.Rda
+SAVING: d16.Rda
+SAVING: g4.Rda
