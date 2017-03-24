@@ -3,9 +3,9 @@
 # Filename: mergePartDisk.R
 #
 # Description: generate disk data based on server data.
-# 1.dcast server data on sid and time for all attr
-# 2.generate number of bytes read/written column for each disk on the percentage of iops
-# 3.divide large table by column to generate disk table.
+# 1.dcast server data on sid and time for all attributes and fill NA with 0
+# 2.[unfinished]generate number of bytes read/written column for each disk on the percentage of iops
+# 3.[unfinished]divide large table by column to generate disk table.
 #
 # Copyright (c) 2017, Yusheng Yi <yiyusheng.hust@gmail.com>
 #
@@ -17,8 +17,7 @@
 #
 #
 #
-rm(list = ls())
-source('head.R')
+rm(list = ls());source('~/rhead')
 load(file.path(dir_data,'failRecord_1407-1506.Rda'))
 sDir <- file.path(dir_data,'mergePartSvrid')
 tDir <- file.path(dir_data,'mergePartSvridDcast')
@@ -35,7 +34,7 @@ extract_io_disk <- function(fn){
   # step1:dcast
   cat(sprintf('DCAST: %s\n',fn))
   dt_dcast <- dcast(dt,svr_id + time ~ attrid,value.var = 'value',fun.aggregate = mean,na.rm = T)
-  dt_dcast[is.na(dt_dcast)] <- 0
+  dt_dcast[is.na(dt_dcast)] <- 0 # fill zero which is removed to decrease size of data transmission
   dim2 <- dim(dt_dcast)[2]
   len_iops <- dim2 - 5
   if(len_iops > 0){

@@ -1,8 +1,6 @@
 1.Load and partition data for server
 Steps: compIO.R -> staIO.R -> partSetting.R -> partSvrid.R -> mergePartSvrid.R
-
-1.5 Generate data for disk based on mergePartSvrid
-mergePartDisk.R
+->mergePartDisk.R->mergePartDiskClear.R -> merge_id_svrid.R
 
 2.Summary Infomation for 
 a)failure record: failRecordLoad_1407-1506.R -> failRecord_diskParse.R
@@ -15,9 +13,5 @@ Steps: restoreData.R -> reduceIOPS.R -> divideFault.R
 amount_proc.R
 amount_ftr.R
 mean_ftr.R(supported by divideFault.R)
-
-5.Analysis
 mean_als.R(supported by mean_ftr.R)
-
-6.Generate normal data
 io_layout.R
