@@ -24,4 +24,5 @@ failRecord$svr_id <- factor(failRecord$svr_id)
 
 #S3.save
 attr(failRecord,'.internal.selfref') <- NULL
-save(failRecord,failRecord,file = file.path(dir_data,'failRecord_1407-1506.Rda'))
+names(failRecord)[names(failRecord) == 'svr_id'] <- 'svrid'
+save(failRecord,file = file.path(dir_data,'failRecord_1407-1506.Rda'))

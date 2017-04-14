@@ -3,6 +3,7 @@
 # Filename: loadData.R
 #
 # Description: load data from disk_fault_list_140101_141231_clear and link it with the other table to merge svrid and id from ym together
+# failRecordA/B is the fail record identifying server with svrid. disk_fault_list_140101-141231_clear is the one with svrnum
 #
 # Copyright (c) 2016, Yusheng Yi <yiyusheng.hust@gmail.com>
 #
