@@ -2,7 +2,7 @@
 Steps: compIO.R -> staIO.R -> partSetting.R -> partSvrid.R -> mergePartSvrid.R
 ->mergePartDisk.R->mergePartDiskClear.R -> merge_id_svrid.R
 
-2.Summary Infomation for 
+2.Summary Infomation for [Moved to Load_Data_Config_Failure]
 a)failure record: failRecordLoad_1407-1506.R -> failRecord_diskParse.R
 b)disk and server info: diskInfoLoad.R
 
